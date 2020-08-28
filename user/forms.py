@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from .models import Profile
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, PasswordChangeForm
-from language.models import Language
+# from language.models import Language
 
 
 class UserForm(UserCreationForm):
@@ -69,7 +69,8 @@ class GenderForm(forms.ModelForm):
 
 
 class LanguageForm(forms.ModelForm):
-    all = list(Language.objects.all())
+    # all = list(Language.objects.all())
+    all = ['Yoruba', 'Ibgo', 'Hausa']
     LANGUAGES = []
     for i in all:
         LANGUAGES.append((i, i))
