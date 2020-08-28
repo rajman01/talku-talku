@@ -1,0 +1,229 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Lato", "Arial", sans-serif;
+}
+
+html,
+body {
+  background-color: #fff;
+  color: #fff;
+  font-family: "Lato", "Arial", sans-serif;
+  font-size: px;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+header {
+  color: #fff;
+  background-image: url("../images/Video.jpg");
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  background-attachment: fixed;
+  margin-bottom: 4rem;
+}
+/* Nav-bar */
+#navigation-bar {
+  color: #fff;
+}
+.nav-link {
+  color: #fff;
+  padding: 0 18px;
+}
+.hire-button {
+  margin: 5% 3% 5% 0%;
+}
+.nav-img {
+  margin-left: 25px;
+}
+.intro-container {
+  height: 650px;
+  padding-bottom: 6rem;
+}
+.intro-container.last {
+  padding-top: 10%;
+}
+.introduction {
+  line-height: 2;
+  font-size: 2rem;
+  margin-left: 10%;
+  text-align: left;
+}
+
+.introduction .hero-text {
+  font-size: 45px;
+}
+
+.intro-container.last .introduction h1 {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+.intro-container.last .introduction h5 {
+  font-size: 0.8rem;
+  line-height: 1.5rem;
+}
+.intro-container.last .introduction button {
+  padding: 8px 20px;
+  color: lightseagreen;
+}
+
+.introduction .hero-subtext {
+  font-size: 15px;
+}
+/* Form */
+.form-container {
+  margin-top: 35px;
+}
+form {
+  /* This bit sets up the horizontal layout */
+  display: flex;
+  flex-direction: row;
+  padding-top: 5%;
+  max-width: 30rem;
+
+  /* This bit draws the box around it */
+  border: 1px ridge white;
+  box-shadow: white 1px;
+  flex-grow: 1;
+
+  /* I've used padding so you can see the edges of the elements. */
+  padding: 1px;
+}
+
+input {
+  flex-grow: 1;
+  border: none;
+}
+
+input:focus {
+  outline: none;
+}
+
+button {
+  border: 1px solid blue;
+  background: blue;
+  color: white;
+  right: 2px;
+}
+
+/*second container*/
+.second-container,
+.third-container {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  padding: 0 6rem;
+  /* background-color: turquoise; */
+}
+.second-section,
+.third-section {
+  /* text-align: center;
+  display: inline-flex;
+  flex-flow: column;
+  */
+  width: 100%;
+}
+
+.first-text,
+.first-text h1 {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.8) !important;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.first-text h1.lead {
+  width: 90rem;
+}
+.first-text::before,
+.first-text::after {
+  display: inline-flex;
+  content: "";
+  border-top: 2px solid rgba(0, 0, 0, 0.2);
+  width: 100%;
+  margin: 0 1rem;
+  vertical-align: middle;
+}
+.second-text {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+.lead {
+  font-size: 32px;
+}
+
+/* Illustration-container */
+
+.illustration-container,
+.instruction-container {
+  height: 750px;
+  width: 100%;
+  background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
+  box-shadow: 0px 0px 10px #0000001a;
+  border-radius: 10px;
+  opacity: 1;
+  margin: 0 auto;
+  margin-bottom: 4rem;
+}
+.instruction-container.success-stories {
+  height: 350px;
+}
+.instruction-container.success-stories .carousel-item img {
+  height: 250px;
+  height: 250px;
+}
+
+.instruction-container.success-stories .x-container {
+  height: 100%;
+}
+.x-container-item3 #carouselExampleControls {
+  height: 100%;
+}
+.instruction-container.success-stories .carousel-item {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.instruction-container.success-stories .carousel-inner {
+  height: 100%;
+}
+.instruction-container.success-stories .carousel-item .img-container {
+  width: 30% !important;
+  height: 18rem !important;
+}
+.illustration-img {
+  width: 200px;
+  height: 200px;
+}
+.instruction-img {
+  width: 200px;
+  height: 250px;
+}
+
+.row {
+  padding-top: 10%;
+}
+.second-div {
+  padding-top: 50px;
+}
+
+h4 {
+  font-size: 40px;
+}
+.second-header {
+  color: #fff;
+  background-image: url("../images/muhammad.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 75vh;
+  width: 100%;
+  background-attachment: fixed;
+  margin-bottom: 4rem;
+}

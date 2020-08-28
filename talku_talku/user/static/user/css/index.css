@@ -1,0 +1,81 @@
+.navbar-nav .nav-item {
+  margin-right: 16px;
+}
+
+form.hire-button {
+  border: none;
+}
+
+header > section,
+header > div {
+  margin: 0 2rem 0 3rem;
+}
+
+.hire-button input {
+  height: 54px;
+  min-width: 15rem !important;
+}
+
+.hire-button input::placeholder {
+  opacity: 0.5;
+}
+
+.hire-button button {
+  padding: 0 25px;
+  height: 50px;
+  margin-right: 1px;
+}
+
+.intro-text {
+  margin-bottom: 35px;
+}
+
+.intro-text h1 {
+  margin-bottom: 30px;
+}
+
+.x-container {
+  padding: unset;
+  margin-right: 0px !important;
+  margin-left: 0px !important;
+  padding-right: 15px !important;
+  padding-left: 15px !important;
+}
+.x-container-item,
+.x-container-item2 {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.x-container-item2 > div {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.x-container-item2 .full-pane > div {
+  width: 50%;
+  text-align: center;
+}
+
+.img-container {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+/* Centered text */
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -22%);
+  background: rgb(19, 1, 1, 0.6);
+  width: 84%;
+  height: 40%;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}

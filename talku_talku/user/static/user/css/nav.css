@@ -1,0 +1,17 @@
+/* Nav-bar */
+#navigation-bar {
+  color: #fff;
+}
+.nav-link {
+  color: #fff;
+  padding: 0 18px;
+}
+.hire-button {
+  margin: 5% 3% 5% 0%;
+}
+.nav-img {
+  margin-left: 25px;
+}
+.navbar {
+  background-color: #808080;
+}

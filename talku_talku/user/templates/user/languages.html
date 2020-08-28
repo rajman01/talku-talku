@@ -1,0 +1,32 @@
+{% extends "user/base.html" %}
+{% load static %}
+{% block content %}
+<div class="main_box">
+        <h2 class="main_heading text-center main_heading_two">Which Language Do You Want To learn?</h2>
+        <div class="log_form">
+            <form action="" class="form my-5 py-5">
+                {% csrf_token %}
+                {% for field in form.languages %}
+                <div class="inputGroup">
+                    {{ field }}
+                </div>
+                {% endfor %}
+                <div class="inputGroup">
+                    <input id="option1" name="option1" type="checkbox" />
+                    <label for="option1">Youruba</label>
+                </div>
+                <div class="inputGroup">
+                    <input id="option2" name="option2" type="checkbox" />
+                    <label for="option2">Igbo</label>
+                </div>
+                <div class="inputGroup">
+                    <input id="option3" name="option3" type="checkbox" />
+                    <label for="option3">Hausa</label>
+                </div>
+
+                <button class="log_button btn">Sign Up</button>
+
+            </form>
+        </div>
+    </div>
+{% endblock content %}
