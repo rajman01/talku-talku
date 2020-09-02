@@ -132,5 +132,5 @@ class AnswerSerializer(serializers.HyperlinkedModelSerializer):
 class ResultSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Result
-        fields = ['url', 'id', 'user',  'question', 'score']
+        fields = ['url', 'id', 'user',  'study_material', 'score']
 

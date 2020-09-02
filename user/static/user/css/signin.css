@@ -23,6 +23,8 @@ body {
 }
 html {
     scroll-behavior: smooth;
+    min-width:400px;
+  overflow-x: hidden;
 }
 /* ==================================================== */
 /* ================== ELEMENTS STYLES ================= */

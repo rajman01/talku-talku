@@ -1,7 +1,8 @@
 from django.contrib import admin
-from .models import Question, Language, AnswerOptions, Stage, StudyMaterial, Result
+from .models import Question, Language, AnswerOptions, Stage, StudyMaterial, Result, SearchQuery
 
 admin.site.register(Result)
+admin.site.register(SearchQuery)
 
 
 class StageAdmin(admin.StackedInline):

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-from rest_framework import status, generics
+from rest_framework import status, generics, filters
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
 from django.contrib.auth.models import User
@@ -78,7 +78,7 @@ class ObtainAuthTokenView(APIView):
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
     authentication_classes = []
 
 
@@ -97,49 +97,52 @@ class ProfileView(generics.RetrieveUpdateAPIView):
 
 
 class LanguageList(generics.ListAPIView):
+    search_fields = ['name']
+    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
     queryset = Language.objects.all()
     serializer_class = LanguageSerializer
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
     authentication_classes = []
 
 
 class LanguageDetail(generics.RetrieveAPIView):
     queryset = Language.objects.all()
     serializer_class = LanguageSerializer
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
     authentication_classes = []
 
 
 class StageView(generics.RetrieveAPIView):
     queryset = Stage.objects.all()
     serializer_class = StageSerializer
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
     authentication_classes = []
 
 
 class StudyMaterialView(generics.RetrieveAPIView):
     queryset = StudyMaterial.objects.all()
     serializer_class = StudyMaterialSerializer
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
     authentication_classes = []
 
 
 class QuestionView(generics.RetrieveAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
     authentication_classes = []
 
 
 class AnswerView(generics.RetrieveAPIView):
     queryset = AnswerOptions.objects.all()
     serializer_class = AnswerSerializer
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
     authentication_classes = []
 
-class ResultView(generics.RetrieveAPIView):
+
+class ResultView(generics.RetrieveUpdateAPIView):
     queryset = Result.objects.all()
     serializer_class = ResultSerializer
-    permission_classes = []
-    authentication_classes = []
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
 

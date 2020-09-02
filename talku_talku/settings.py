@@ -26,7 +26,7 @@ SECRET_KEY = ')=8)*f2ohizt!0^)m%(alw6z)$73b3_op7uy6(in((1mzt6so@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['talku-talku.herokuapp.com']
+ALLOWED_HOSTS = ['talku-talku.herokuapp.com', '127.0.0.1']
 
 
 # Application definition

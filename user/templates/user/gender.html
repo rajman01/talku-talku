@@ -6,22 +6,12 @@
         <div class="log_form">
             <form action="" class="form my-5 py-5" method="POST">
                 {% csrf_token %}
-                {% for field in form.gender %}
                 <div class="inputGroup">
-                    <label for="{{ field.id_for_label }}">test</label>
-                    {{ field.tag }}
-                </div>
-                {% endfor %}
-
-                <div>
-
-</div>
-                <div class="inputGroup">
-                    <input id="radio1" name="radio" type="radio" />
+                    <input id="radio1" name="radio" type="radio" value="Male"  checked/>
                     <label for="radio1">Male</label>
                 </div>
                 <div class="inputGroup">
-                    <input id="radio2" name="radio" type="radio" />
+                    <input id="radio2" name="radio" type="radio" value="Female"/>
                     <label for="radio2">Female</label>
                 </div>
                 <button class="log_button btn">Continue</button>

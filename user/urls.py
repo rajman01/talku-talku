@@ -10,6 +10,4 @@ urlpatterns = [
     path('profile/', views.profile_view, name='profile'),
     path('edit-profile/', views.edit_profile_view, name='edit-profile'),
     path('gender/', views.gender_view, name='gender'),
-    path('languages/', views.language_view, name='languages'),
-
 ]

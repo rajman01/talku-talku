@@ -15,7 +15,7 @@ class Profile(models.Model):
         ('Male', 'Male'),
     )
     gender = models.CharField(max_length=30, choices=GENDER_CHOICES, default='Male')
-    languages = models.ManyToManyField(Language)
+    languages = models.ManyToManyField(Language, blank=True)
     objects = models.Manager()
 
     def __str__(self):

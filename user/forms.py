@@ -1,15 +1,15 @@
 from django import forms
 from django.contrib.auth.models import User
 from .models import Profile
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, PasswordChangeForm
-# from language.models import Language
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm, SetPasswordForm
+from language.models import all_languages
+from django.utils.translation import gettext_lazy as _
 
 
 class UserForm(UserCreationForm):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'aria-describedby': 'helpId'}))
-    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    password1 = forms.CharField(label=_("Password"), widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    password2 = forms.CharField(label=_("Confirm Password"), widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = User
@@ -36,12 +36,13 @@ class ResetForm(PasswordResetForm):
         super(PasswordResetForm, self).__init__(*args, **kwargs)
 
 
-class ResetConfirmForm(PasswordChangeForm):
-    new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-    new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+class ResetConfirmForm(SetPasswordForm):
+    new_password1 = forms.CharField(label=_("New password"), widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    new_password2 = forms.CharField(label=_("New password Confirmation"), widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    user = User
 
-    def __init__(self, *args, **kwargs):
-        super(PasswordChangeForm, self).__init__(*args, **kwargs)
+    def __init__(self, user, *args, **kwargs):
+        super(SetPasswordForm, self).__init__(*args, **kwargs)
 
 
 class UserUpdateForm(forms.ModelForm):
@@ -49,36 +50,10 @@ class UserUpdateForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email']
+        fields = ['username', 'email', 'first_name', 'last_name']
 
 
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['avatar', 'bio']
-
-
-
-class GenderForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ['gender']
-        widgets = {
-            'gender': forms.RadioSelect()
-        }
-
-
-class LanguageForm(forms.ModelForm):
-    # all = list(Language.objects.all())
-    all = ['Yoruba', 'Ibgo', 'Hausa']
-    LANGUAGES = []
-    for i in all:
-        LANGUAGES.append((i, i))
-    languages = forms.MultipleChoiceField(
-                widget=forms.CheckboxSelectMultiple,
-                choices=LANGUAGES
-    )
-
-    class Meta:
-        model = Profile
-        fields = ['languages']
+        fields = ['avatar', 'bio', 'gender']

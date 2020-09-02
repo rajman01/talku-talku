@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
-from .forms import UserForm, UserUpdateForm, ProfileForm, GenderForm, LanguageForm
+from .forms import UserForm, UserUpdateForm, ProfileForm
 from django.contrib import messages
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate, login
@@ -49,7 +49,6 @@ def edit_profile_view(request):
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
             p_form.save()
-            messages.success(request, f'Your account has been updated')
             return redirect('profile')
     else:
         u_form = UserUpdateForm(instance=request.user)
@@ -65,30 +64,12 @@ def edit_profile_view(request):
 @login_required
 def gender_view(request):
     if request.method == 'POST':
-        form = GenderForm(request.POST, instance=request.user.profile)
-        if form.is_valid():
-            form.save()
-            return redirect('profile')
+        q = request.POST.get('radio')
+        request.user.profile.gender = q
+        request.user.profile.save()
+        return redirect('language')
     else:
-        form = GenderForm(instance=request.user.profile)
-    context = {
-        'form': form,
-        'title': 'Gender'
-    }
-    return render(request, 'user/gender.html', context)
-
-
-@login_required
-def language_view(request):
-    if request.method == 'POST':
-        form = LanguageForm(request.POST, instance=request.user.profile)
-        if form.is_valid():
-            form.save()
-            return redirect('learn')
-    else:
-        form = LanguageForm(instance=request.user.profile)
-    context = {
-        'form': form,
-        'title': 'Language'
-    }
-    return render(request, 'user/languages.html', context)
+        context = {
+            'title': 'Gender'
+        }
+        return render(request, 'user/gender.html', context)

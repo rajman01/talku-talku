@@ -1,58 +1,47 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <link rel="stylesheet" href="{% static 'user/css/nav.css' %}" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap"
-      rel="stylesheet"
-    />
 
-    <!-- Bootstrap CSS -->
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="{% static 'user/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'user/css/signin.css' %}">
-    <link rel="stylesheet" href="{% static 'user/css/footer.css' %}">
-      <link rel="stylesheet" href="{% static 'user/css/learn.css' %}">
-    <script src="https://kit.fontawesome.com/ff8f230d9a.js" crossorigin="anonymous"></script>
-
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% if title %}
     <title>Talku-Talku | {{ title }}</title>
     {% else %}
     <title>Talku-Talku</title>
     {% endif %}
-  </head>
+    <link rel="stylesheet" href="{% static 'user/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/signin.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/nav.css' %}">
+    <link rel="stylesheet" href="{% static 'user/css/learn.css' %}">
+    {% block style %}
+    {% endblock %}
+    <script src="https://kit.fontawesome.com/ff8f230d9a.js" crossorigin="anonymous"></script>
+</head>
 
-  <body>
+<body>
+    <!-- Page Preloader -->
+    <div class="loader">
+        <div class="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <!-- End of Page Preloader -->
     <section id="navigation-bar">
-      <nav class="navbar navbar-expand-lg">
-        <a class="navbar-brand" href="#">
-          <img class="nav-img" src="{% static 'user/images/preaver.png' %}" />
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
+        <nav class="navbar navbar-expand-lg">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img class="nav-img" src="{% static 'user/images/preaver.png' %}" />
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa fa-bars" aria-hidden="true"></i>
+            </button>
 
-         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
               <a class="nav-link" href="{% url 'home' %}">How it works <span class="sr-only">(current)</span></a>
@@ -60,6 +49,9 @@
               {% if user.is_authenticated %}
               <li class="nav-item">
               <a class="nav-link" href="{% url 'profile' %}">{{ user.username }}</a>
+                </li>
+              <li class="nav-item">
+              <a class="nav-link" href="{% url 'manage' %}">Manage</a>
                 </li>
               <li class="nav-item">
               <a class="nav-link" href="{% url 'logout' %}">Logout</a>
@@ -80,23 +72,24 @@
           </a>
             {% endif %}
         </div>
-      </nav>
+        </nav>
     </section>
-     <div class="container">
-            <div class="row mt-4">
-                <div class="col"></div>
-                <div class="col-md-6 col-sm-12">
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert alert-{{ message.tags }}">
-                                {{ message }}
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                </div>
-                <div class="col"></div>
-            </div>
-        </div>
+
+<!--     <div class="container">-->
+<!--            <div class="row mt-4">-->
+<!--                <div class="col"></div>-->
+<!--                <div class="col-md-6 col-sm-12">-->
+<!--                    {% if messages %}-->
+<!--                        {% for message in messages %}-->
+<!--                            <div class="alert alert-{{ message.tags }}">-->
+<!--                                {{ message }}-->
+<!--                            </div>-->
+<!--                        {% endfor %}-->
+<!--                    {% endif %}-->
+<!--                </div>-->
+<!--                <div class="col"></div>-->
+<!--            </div>-->
+<!--        </div>-->
     {% block content %}
     {% endblock %}
     <footer>
@@ -193,11 +186,7 @@
       integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
       crossorigin="anonymous"
     ></script>
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-      integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
-      crossorigin="anonymous"
-    ></script>
+
   <script src="{% static 'user/js/jquery-3.5.1.min.js' %}"></script>
     <script src="{% static 'user/js/popper.js' %}"></script>
     <script src="{% static 'user/js/bootstrap.min.js' %}"></script>

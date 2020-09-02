@@ -2,16 +2,39 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db.models import Q
+from django.utils import timezone
+
+
+class LanguageQuerySet(models.QuerySet):
+
+    def search(self, query):
+        lookup = (
+            Q(name__icontains=query)
+        )
+        return self.filter(lookup)
+
+
+class LanguageManager(models.Manager):
+    def get_queryset(self):
+        return LanguageQuerySet(self.model, using=self._db)
+
+    def search(self, query=None):
+        if query is None:
+            return self.get_queryset().none()
+        return self.get_queryset().search(query)
 
 
 class Language(models.Model):
     name = models.CharField(_('Name'), max_length=20, unique=True)
     brief_description = models.CharField(_('Brief Description'), max_length=300, blank=True)
-    objects = models.Manager()
+    objects = LanguageManager()
 
     def __str__(self):
         return self.name
+
+
+all_languages = Language.objects.all()
 
 
 class Stage(models.Model):
@@ -77,7 +100,7 @@ class AnswerOptions(models.Model):
 
 class Result(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    study_material = models.ForeignKey(StudyMaterial, on_delete=models.CASCADE)
     score = models.IntegerField(_('Score'), default=0)
     objects = models.Manager()
     # answer = models.
@@ -91,4 +114,13 @@ class Result(models.Model):
 #             MinValueValidator(0)
 #         ])
 #     objects = models.Manager()
+
+
+class SearchQuery(models.Model):
+    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
+    query = models.CharField(max_length=220)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.query
 
