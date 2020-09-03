@@ -17,6 +17,7 @@ from .serializers import (RegisterSerializer, UserSerializer, ProfileSerializer,
 from rest_framework.authentication import TokenAuthentication
 from user.models import Profile
 from language.models import Language, Stage, StudyMaterial, Question, AnswerOptions, Result
+from rest_framework.pagination import PageNumberPagination
 
 
 @api_view(['GET'])
@@ -79,7 +80,8 @@ class UserList(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
-    authentication_classes = []
+    authentication_classes = [TokenAuthentication]
+    pagination_class = PageNumberPagination
 
 
 class UserDetail(generics.RetrieveUpdateAPIView):
@@ -88,12 +90,38 @@ class UserDetail(generics.RetrieveUpdateAPIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [TokenAuthentication]
 
+    def put(self, request, *args, **kwargs):
+        object = self.get_object()
+        user = request.user
+        if object != user:
+            return Response({'response': 'you dont have permission to edit that'})
+        serializer = UserSerializer(object, data=request.data)
+        data = {}
+        if serializer.is_valid():
+            serializer.save()
+            data['success'] = 'update successful'
+            return Response(data=data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class ProfileView(generics.RetrieveUpdateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
     authentication_classes = [TokenAuthentication]
+
+    def put(self, request, *args, **kwargs):
+        object = self.get_object()
+        user = request.user
+        if object.user != user:
+            return Response({'response': 'you dont have permission to edit that'})
+        serializer = ProfileSerializer(object, data=request.data)
+        data = {}
+        if serializer.is_valid():
+            serializer.save()
+            data['success'] = 'update successful'
+            return Response(data=data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class LanguageList(generics.ListAPIView):
@@ -102,42 +130,43 @@ class LanguageList(generics.ListAPIView):
     queryset = Language.objects.all()
     serializer_class = LanguageSerializer
     permission_classes = [IsAuthenticated]
-    authentication_classes = []
+    authentication_classes = [TokenAuthentication]
+    pagination_class = PageNumberPagination
 
 
 class LanguageDetail(generics.RetrieveAPIView):
     queryset = Language.objects.all()
     serializer_class = LanguageSerializer
     permission_classes = [IsAuthenticated]
-    authentication_classes = []
+    authentication_classes = [TokenAuthentication]
 
 
 class StageView(generics.RetrieveAPIView):
     queryset = Stage.objects.all()
     serializer_class = StageSerializer
     permission_classes = [IsAuthenticated]
-    authentication_classes = []
+    authentication_classes = [TokenAuthentication]
 
 
 class StudyMaterialView(generics.RetrieveAPIView):
     queryset = StudyMaterial.objects.all()
     serializer_class = StudyMaterialSerializer
     permission_classes = [IsAuthenticated]
-    authentication_classes = []
+    authentication_classes = [TokenAuthentication]
 
 
 class QuestionView(generics.RetrieveAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
     permission_classes = [IsAuthenticated]
-    authentication_classes = []
+    authentication_classes = [TokenAuthentication]
 
 
 class AnswerView(generics.RetrieveAPIView):
     queryset = AnswerOptions.objects.all()
     serializer_class = AnswerSerializer
     permission_classes = [IsAuthenticated]
-    authentication_classes = []
+    authentication_classes = [TokenAuthentication]
 
 
 class ResultView(generics.RetrieveUpdateAPIView):
@@ -145,4 +174,17 @@ class ResultView(generics.RetrieveUpdateAPIView):
     serializer_class = ResultSerializer
     permission_classes = [IsAuthenticated]
     authentication_classes = [TokenAuthentication]
+    
+    def put(self, request, *args, **kwargs):
+        object = self.get_object()
+        user = request.user
+        if object.user != user:
+            return Response({'response': 'you dont have permission to edit that'})
+        serializer = ResultSerializer(object, data=request.data)
+        data = {}
+        if serializer.is_valid():
+            serializer.save()
+            data['success'] = 'update successful'
+            return Response(data=data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
