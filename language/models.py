@@ -27,7 +27,7 @@ class LanguageManager(models.Manager):
 
 class Language(models.Model):
     name = models.CharField(_('Name'), max_length=20, unique=True)
-    brief_description = models.CharField(_('Brief Description'), max_length=300, blank=True)
+    brief_description = models.TextField(_('Brief Description'), blank=True)
     objects = LanguageManager()
 
     def __str__(self):
@@ -49,6 +49,16 @@ class Stage(models.Model):
         ('8', '8'),
         ('9', '9'),
         ('10', '10'),
+        ('11', '11'),
+        ('12', '12'),
+        ('13', '13'),
+        ('14', '14'),
+        ('15', '15'),
+        ('16', '16'),
+        ('17', '17'),
+        ('18', '18'),
+        ('19', '19'),
+        ('20', '20'),
     )
 
     language = models.ForeignKey(Language, on_delete=models.CASCADE)
