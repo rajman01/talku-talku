@@ -57,7 +57,7 @@ def analyze(request, pk):
             try:
                 q = request.POST[str(question.id)]
             except MultiValueDictKeyError:
-                messages.warning(request, f'Select a choice for all questions.')
+                messages.danger(request, f'Select a choice for all questions.')
                 return redirect('analyze', pk=pk)
                 # return render(request, 'language/study_material.html',
                 #               context={'material': material, 'error': 'Select a choice for all questions'})
