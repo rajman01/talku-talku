@@ -61,5 +61,5 @@ def calculate(results, language):
     progress = 0
     if count != 0:
         progress = sum(scores) / count
-    return progress
+    return int(progress)
 

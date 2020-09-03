@@ -19,6 +19,13 @@
             </div>
         {% endif %}
         <div class="questions mt-4">
+                                {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
             <h3 class="mb-3">Questions:</h3>
             <div class="question">
                 <form action="{% url 'analyze' material.id %}" method="POST">

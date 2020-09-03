@@ -7,6 +7,7 @@ from language.models import StudyMaterial, Question, AnswerOptions, Result, Lang
 from django.utils.datastructures import MultiValueDictKeyError
 from django.contrib.auth.decorators import login_required
 from .models import Language, SearchQuery
+from django.contrib import messages
 
 
 def home_view(request):
@@ -56,8 +57,10 @@ def analyze(request, pk):
             try:
                 q = request.POST[str(question.id)]
             except MultiValueDictKeyError:
-                return render(request, 'language/study_material.html',
-                              context={'material': material, 'error': 'Select a choice for all questions'})
+                messages.warning(request, f'Select a choice for all questions.')
+                return redirect('analyze', pk=pk)
+                # return render(request, 'language/study_material.html',
+                #               context={'material': material, 'error': 'Select a choice for all questions'})
             answers.append(q)
         result = Result.objects.filter(user=request.user, study_material=material).first()
         if not result:
