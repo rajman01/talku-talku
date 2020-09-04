@@ -136,6 +136,9 @@ class ResultSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CreateResultSerializer(serializers.ModelSerializer):
+    username = serializers.CharField()
+    study_material_id = serializers.CharField()
+
     class Meta:
         model = Result
         fields = ['username', 'study_material_id', 'score']
