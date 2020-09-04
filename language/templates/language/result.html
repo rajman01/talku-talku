@@ -11,7 +11,7 @@
                 <h3>Answers</h3>
                 <div class="alphabet_box">
                     {% for question in object.study_material.question_set.all %}
-                        <h4>Question {{ forloop.counter }}</h4>
+                        <h4>{{ forloop.counter }}.) {{ question.text }}</h4>
                         {% for option in question.answeroptions_set.all %}
                             {% if option.is_correct %}
                                 <label>({{ forloop.counter|alphabet }}) {{ option.options_text }}&nbsp&nbsp</label><i class="fas fa-check" style="color: green;"></i><br>

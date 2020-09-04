@@ -71,7 +71,7 @@ def analyze(request, pk):
                 score += 1
         average = 0
         if len(answers) != 0:
-            average = (score/len(answers)) * 100
+            average = int((score/len(answers)) * 100)
         result.score = average
         result.save()
         return render(request, 'language/result.html', context={'object': result})
