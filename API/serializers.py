@@ -149,7 +149,7 @@ class CreateResultSerializer(serializers.ModelSerializer):
         except User.DoesNotExist:
             raise serializers.ValidationError({'user': 'user does not exist'})
         try:
-            study_material = StudyMaterial.objects.get(pk=study_material_id)
+            study_material = StudyMaterial.objects.get(pk=int(study_material_id))
         except StudyMaterial.DoesNotExist:
             raise serializers.ValidationError({'study_material': 'study material does not exist'})
         result = Result.objects.filter(user=user, study_material=study_material).first()
