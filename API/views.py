@@ -197,7 +197,10 @@ def create_result_view(request):
     if request.method == 'POST':
         user1 = request.user
         username = request.data['username']
-        user2 = User.objects.filter(username=username).first()
+        try:
+            user2 = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return Response({'response': 'user does not exist'})
         if user1 != user2:
             return Response({'response': 'you dont have permission to do that'})
         serializer = CreateResultSerializer(data=request.data)
