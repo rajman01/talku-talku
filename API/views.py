@@ -6,14 +6,14 @@ from rest_framework.reverse import reverse
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate
 from rest_framework.viewsets import ModelViewSet
 from .serializers import (RegisterSerializer, UserSerializer, ProfileSerializer, LanguageSerializer,
                           StageSerializer, StudyMaterialSerializer, QuestionSerializer, AnswerSerializer,
-                          ResultSerializer)
+                          ResultSerializer, CreateResultSerializer)
 from rest_framework.authentication import TokenAuthentication
 from user.models import Profile
 from language.models import Language, Stage, StudyMaterial, Question, AnswerOptions, Result
@@ -28,6 +28,7 @@ def api_root(request, format=None):
         'login': reverse('api-login', request=request, format=format),
         'register': reverse('api-register', request=request, format=format),
         'languages': reverse('api-languages', request=request, format=format),
+        'create result': reverse('create-result', request=request, format=format),
     })
 
 
@@ -188,3 +189,25 @@ class ResultView(generics.RetrieveUpdateAPIView):
             return Response(data=data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+@api_view(['POST', ])
+@permission_classes((IsAuthenticated,))
+@authentication_classes((TokenAuthentication,))
+def create_result_view(request):
+    if request.method == 'POST':
+        user1 = request.user
+        username = request.data['username']
+        user2 = User.objects.filter(username=username).first()
+        if user1 != user2:
+            return Response({'response': 'you dont have permission to do that'})
+        serializer = CreateResultSerializer(data=request.data)
+        data = {}
+        if serializer.is_valid():
+            result = serializer.save()
+            data['response'] = 'successfully created'
+            data['username'] = result.user.username
+            data['study_material_id'] = result.study_material.id
+            data['score'] = result.score
+        else:
+            data = serializer.errors
+        return Response(data)

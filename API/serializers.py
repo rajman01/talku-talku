@@ -48,7 +48,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = User
-        fields = ['url', 'id', 'email', 'username', 'profile', 'result_set' ]
+        fields = ['url', 'id', 'email', 'username', 'profile', 'result_set']
         read_only_fields = ['id', ]
 
 
@@ -133,4 +133,34 @@ class ResultSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Result
         fields = ['url', 'id', 'user',  'study_material', 'score']
+
+
+class CreateResultSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Result
+        fields = ['username', 'study_material_id', 'score']
+
+    def save(self, **kwargs):
+        username = self.validated_data['username']
+        study_material_id = self.validated_data['study_material_id']
+        score = self.validated_data['score']
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            raise serializers.ValidationError({'user': 'user does not exist'})
+        try:
+            study_material = StudyMaterial.objects.get(pk=study_material_id)
+        except StudyMaterial.DoesNotExist:
+            raise serializers.ValidationError({'study_material': 'study material does not exist'})
+        result = Result.objects.filter(user=user, study_material=study_material).first()
+        if result:
+            raise serializers.ValidationError({'result': 'result already exist'})
+        else:
+            result = Result(
+                user=user,
+                study_material=study_material,
+                score=score
+            )
+            result.save()
+            return result
 
