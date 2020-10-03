@@ -166,4 +166,3 @@ class CreateResultSerializer(serializers.ModelSerializer):
             )
             result.save()
             return result
-

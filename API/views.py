@@ -10,7 +10,6 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate
-from rest_framework.viewsets import ModelViewSet
 from .serializers import (RegisterSerializer, UserSerializer, ProfileSerializer, LanguageSerializer,
                           StageSerializer, StudyMaterialSerializer, QuestionSerializer, AnswerSerializer,
                           ResultSerializer, CreateResultSerializer)
@@ -47,7 +46,7 @@ def registration_view(request):
             data['token'] = token.key
         else:
             data = serializer.errors
-        return Response(data)
+        return Response(data, status=status.HTTP_201_CREATED)
 
 
 class ObtainAuthTokenView(APIView):
@@ -56,11 +55,13 @@ class ObtainAuthTokenView(APIView):
 
     def post(self, request):
         context = {}
-
         # username = request.POST.get('username')
         # password = request.POST.get('password')
-        username = request.data['username']
-        password = request.data['password']
+        try:
+            username = request.data['username']
+            password = request.data['password']
+        except KeyError:
+            return Response({'error': 'Provide all credentials'}, status=status.HTTP_400_BAD_REQUEST)
         user = authenticate(username=username, password=password)
         if user:
             try:
@@ -74,7 +75,7 @@ class ObtainAuthTokenView(APIView):
         else:
             context['response'] = 'Error'
             context['error_message'] = 'Invalid credentials'
-        return Response(context)
+        return Response(context, status=status.HTTP_200_OK)
 
 
 class UserList(generics.ListAPIView):
@@ -95,13 +96,13 @@ class UserDetail(generics.RetrieveUpdateAPIView):
         object = self.get_object()
         user = request.user
         if object != user:
-            return Response({'response': 'you dont have permission to edit that'})
+            return Response({'response': 'you dont have permission to edit that'}, status=status.HTTP_403_FORBIDDEN)
         serializer = UserSerializer(object, data=request.data)
         data = {}
         if serializer.is_valid():
             serializer.save()
             data['success'] = 'update successful'
-            return Response(data=data)
+            return Response(data=data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -115,13 +116,13 @@ class ProfileView(generics.RetrieveUpdateAPIView):
         object = self.get_object()
         user = request.user
         if object.user != user:
-            return Response({'response': 'you dont have permission to edit that'})
+            return Response({'response': 'you dont have permission to edit that'}, status=status.HTTP_403_FORBIDDEN)
         serializer = ProfileSerializer(object, data=request.data)
         data = {}
         if serializer.is_valid():
             serializer.save()
             data['success'] = 'update successful'
-            return Response(data=data)
+            return Response(data=data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -180,13 +181,13 @@ class ResultView(generics.RetrieveUpdateAPIView):
         object = self.get_object()
         user = request.user
         if object.user != user:
-            return Response({'response': 'you dont have permission to edit that'})
+            return Response({'response': 'you dont have permission to edit that'}, status=status.HTTP_403_FORBIDDEN)
         serializer = ResultSerializer(object, data=request.data)
         data = {}
         if serializer.is_valid():
             serializer.save()
             data['success'] = 'update successful'
-            return Response(data=data)
+            return Response(data=data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -200,9 +201,9 @@ def create_result_view(request):
         try:
             user2 = User.objects.get(username=username)
         except User.DoesNotExist:
-            return Response({'response': 'user does not exist'})
+            return Response({'response': 'user does not exist'}, status=status.HTTP_404_NOT_FOUND)
         if user1 != user2:
-            return Response({'response': 'you dont have permission to do that'})
+            return Response({'response': 'you dont have permission to do that'}, status=status.HTTP_403_FORBIDDEN)
         serializer = CreateResultSerializer(data=request.data)
         data = {}
         if serializer.is_valid():
